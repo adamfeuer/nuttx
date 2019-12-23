@@ -100,6 +100,7 @@
 #define sam_emac_enableclk()       sam_enableperiph1(SAM_PID_EMAC)
 #define sam_can0_enableclk()       sam_enableperiph1(SAM_PID_CAN0)
 #define sam_can1_enableclk()       sam_enableperiph1(SAM_PID_CAN1)
+#define sam_udp_enableclk()        sam_enableperiph1(SAM_PID_UDP)
 
 #define sam_supc_disableclk()      sam_disableperiph0(SAM_PID_SUPC)
 #define sam_rstc_disableclk()      sam_disableperiph0(SAM_PID_RSTC)
@@ -146,6 +147,7 @@
 #define sam_emac_disableclk()      sam_disableperiph1(SAM_PID_EMAC)
 #define sam_can0_disableclk()      sam_disableperiph1(SAM_PID_CAN0)
 #define sam_can1_disableclk()      sam_disableperiph1(SAM_PID_CAN1)
+#define sam_udp_disableclk()       sam_disableperiph1(SAM_PID_UDP)
 
 /************************************************************************************
  * Public Types

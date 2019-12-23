@@ -65,4 +65,8 @@ ifeq ($(CONFIG_LIB_BOARDCTL),y)
 CSRCS += sam_appinit.c
 endif
 
+ifeq ($(CONFIG_SAM34_UDP),y)
+CSRCS += sam_udp.c
+endif
+
 include $(TOPDIR)/boards/Board.mk

@@ -102,6 +102,7 @@
 #  define SAM_USART3_BASE      0x400a4000 /* 0x40028000-0x400a7fff:   USART3 */
                                           /* 0x400a8000-0x400ac000: Reserved */
 #define SAM_UOTGHS_BASE        0x40034000 /* 0x40034000-0x400affff: USB OTG High Speed */
+#define SAM_UDP_BASE           SAM_UOTGHS_BASE
 #define SAM_EMAC_BASE          0x400b0000 /* 0x400b0000-0x400b3fff: Ethernet MAC */
 #define SAM_CAN_BASE           0x400b4000 /* 0x400b4000-0x400bbfff: CAN */
 #define SAM_CAN0_BASE          0x400b4000 /* 0x400b4000-0x400b7fff:   CAN0 */

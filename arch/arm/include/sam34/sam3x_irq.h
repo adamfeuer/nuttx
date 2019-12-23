@@ -95,8 +95,9 @@
 #define SAM_PID_EMAC          (42)  /* Ethernet MAC */
 #define SAM_PID_CAN0          (43)  /* CAN Controller 0 */
 #define SAM_PID_CAN1          (44)  /* CAN Controller 1 */
+#define SAM_PID_UDP           (46)  /* USB Device Port */
 
-#define NR_PIDS               (45)  /* Number of peripheral identifiers */
+#define NR_PIDS               (46)  /* Number of peripheral identifiers */
 
 /* External interrupts (vectors >= 16) */
 
@@ -145,6 +146,7 @@
 #define SAM_IRQ_EMAC          (SAM_IRQ_EXTINT+SAM_PID_EMAC)   /* Ethernet MAC */
 #define SAM_IRQ_CAN0          (SAM_IRQ_EXTINT+SAM_PID_CAN0)   /* CAN Controller 0 */
 #define SAM_IRQ_CAN1          (SAM_IRQ_EXTINT+SAM_PID_CAN1)   /* CAN Controller 1 */
+#define SAM_IRQ_UDP           (SAM_IRQ_EXTINT+SAM_PID_UDP)    /* USB Device */
 
 #define SAM_IRQ_NEXTINT       NR_PIDS                         /* Number of external interrupts */
 #define SAM_IRQ_NIRQS         (SAM_IRQ_EXTINT+NR_PIDS)        /* The number of real IRQs */
