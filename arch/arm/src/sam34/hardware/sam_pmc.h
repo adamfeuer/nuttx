@@ -209,8 +209,6 @@
 #  define PMC_UOTGCLK                    (1 << 5)  /* Bit 5: Enable USB OTG Clock (48 MHz, USB_48M) for UTMI */
 #endif
 
-// #if defined(CONFIG_ARCH_CHIP_SAM4S) || defined(CONFIG_ARCH_CHIP_SAM4E)
-// af
 #if defined(CONFIG_ARCH_CHIP_SAM4S) || defined(CONFIG_ARCH_CHIP_SAM4E) || defined(CONFIG_ARCH_CHIP_SAM3X)
 #  define PMC_UDP                        (1 << 7)  /* Bit 7: USB Device Port Clock Enable */
 #endif
