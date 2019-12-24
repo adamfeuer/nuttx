@@ -141,8 +141,6 @@ endif
 
 ifeq ($(CONFIG_SAM34_EMAC),y)
 CHIP_CSRCS += sam_emac.c
-else
-CHIP_CSRCS += sam_netinit.c
 endif
 
 ifeq ($(CONFIG_SAM34_UDP),y)
