@@ -11,6 +11,7 @@ NuttX is a real-time operating system (RTOS) with an emphasis on standards compl
    introduction/index.rst
    quickstart/index.rst
    reference/index.rst
+   components/index.rst
    boards/index.rst
    guides/index.rst
    releases/index.rst
