@@ -10,30 +10,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: Check
-
+name: "Build Sphinx Docs"
 on:
   pull_request:
-    paths-ignore:
-      - 'doc/**'
+  push:
+    branches:
+      - master
+      - 'releases/*'
+    tags:
 
 jobs:
-  check:
-    runs-on: ubuntu-18.04
-
+  docs:
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout nuttx repo
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v1
+    - uses: ammaraskar/sphinx-action@master
       with:
-        repository: apache/incubator-nuttx
-        path: nuttx
-        fetch-depth: 0
-
-    - name: Check Pull Request
-      run: |
-        echo "::add-matcher::nuttx/.github/nxstyle.json"
-        cd nuttx
-        commits=`git log -1 --merges --pretty=format:%P | awk -F" " '{ print $1 ".." $2 }'`
-        git log --oneline $commits
-        echo "../nuttx/tools/checkpatch.sh -g $commits"
-        ../nuttx/tools/checkpatch.sh -g $commits
+        docs-folder: "doc/"
+    - uses: actions/upload-artifact@v2
+      with:
+        name: sphinx-docs
+        path: doc/_build/html/
