@@ -38,6 +38,7 @@ jobs:
         cd gh-pages
         rm -rf *
         cp -r ../doc/_build/html/* .
+        touch .nojekill
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add .
