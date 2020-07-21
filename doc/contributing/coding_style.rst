@@ -1,357 +1,322 @@
+.. warning:: the following was converted using pandoc and then improved manually \
+  most code samples are missing as pandoc did not convert them. this needs to \ 
+  be fixed
+
 =======================
 NuttX C Coding Standard
 =======================
 
-.. warning:: For now this is simply the result of pandoc conversion for demo purposes. \
-             Final version will be manually improved.
-
-:Author: Gregory Nutt
-
-.. container::
-
-   .. container:: toc
-
-      +-----------------------------------------------------------------------+
-      | .. rubric:: Table of Contents                                         |
-      |    :name: table-of-contents                                           |
-      +-----------------------------------------------------------------------+
-
-      **1.0**\ `General Conventions <#general>`__
-
-      **2.0**\ `Data and Type Definitions <#datatypes>`__
-
-      **3.0**\ `Functions <#functions>`__
-
-      **4.0**\ `Statements <#statements>`__
-
-      **5.0**\ `C++ <#cplusplus>`__
-
-      `Appendix A <#appndxa>`__
-
-   .. container:: main
-
-      --------------
-
-      --------------
-
-      +-----------------------------------------------------------------------+
-      | .. rubric:: *NuttX C Coding Standard*                                 |
-      |    :name: nuttx-c-coding-standard                                     |
-      |                                                                       |
-      | Last Updated: May 19, 2020                                            |
-      +-----------------------------------------------------------------------+
-
-      --------------
-
-      --------------
-
-      +-----------------------------------------------------------------------+
-      | .. rubric:: 1.0 General Conventions                                   |
-      |    :name: general-conventions                                         |
-      +-----------------------------------------------------------------------+
-
-      .. rubric:: 1.1 File Organization
-         :name: file-organization
-
-      **File Extensions** Use the ``.h`` extension for C header files
-      and ``.c`` for C source files.
-
-      **File header**. Every C, C++, make file, or script begins with a
-      file header. That file header is enclosed with a *block comment*
-      (see below). Within the block comment, the following must appear:
-
-      -  The relative path to the file from the top-level directory.
-      -  An optional, one-line description of the file contents.
-      -  A blank line
-      -  A copyright notice indented two additional spaces
-      -  A line identifying the author and contact information with the
-         same indentation as the copyright notice.
-      -  A blank line
-      -  NuttX standard Apache 2.0 licensing information as provided in
-         the `appendix <#appndxa>`__.
-
-      **Sample File Headers**. Sample file headers are provided in an
-      `Appendix <#appndxa>`__ to this document. No new software may be
-      included in the NuttX source tree that does not have licensing
-      information included in the file. No new software may be included
-      in the NuttX source tree that does not have a Apache 2.0 license
-      or license (or, in the case of 3rd party file, a compatible
-      license such as the BSD or MIT licenses). If the file does not
-      follow Apache 2.0 licensing, then the appropriate license
-      information should be provided in the header rather than the
-      Apache 2.0 licensing information and a NOTE should be included in
-      the top-level ``COPYING`` file to indicate any variations from
-      Apache 2.0 licensing.
-
-      **Grouping**. All like components in a C source or header file are
-      grouped together. Definitions do not appear arbitrarily through
-      the file, rather, like definitions are grouped together and
-      preceded by a *block comment* identifying the grouping.
-
-      **Block Comments**. Each grouping in the file is separated with a
-      *block comment*. The block comment consists of:
-
-      -  A line that consists of the opening C comment (``/*``) followed
-         by a series of asterisks extending to the length of the line
-         (usually to column 78).
-      -  The name of the grouping, starting at column 4. An asterisk
-         preceives the name of the grouping in column 1.
-      -  A line that consists of the closing C comment (``*/``) at the
-         end of the line (usually column 78) preceded by a series of
-         asterisks extending to column 1.
-
-      **Examples of Block Comments**. See `Appendix A <#appndxa>`__ for
-      examples of block comments.
-
-      **Order of Groupings**. The following groupings should appear in
-      all C source files in the following order:
-
-      #. Included Files
-      #. Pre-processor Definitions
-      #. Private Types (definitions)
-      #. Private Function Prototypes (declarations)
-      #. Private Data (definitions)
-      #. Public Data (definitions)
-      #. Private Functions (definitions)
-      #. Public Functions (definitions)
-
-      The following groupings should appear in all C header files in the
-      following order:
-
-      #. Included Files
-      #. Pre-processor Definitions
-      #. Public Types (definitions)
-      #. Public Data (declarations)
-      #. Inline Functions (definitions)
-      #. Public Function Prototypes (declarations)
-
-      **Large vs. Small Files**. In larger files, block comments should
-      be included for all groupings, even if they are empty; the empty
-      grouping provides important information in itself. Smaller files
-      may omit some of the block comments; it is awkard if the block
-      comments are larger than the file content!
-
-      Header File Idempotence. C header file must protect against
-      multiple inclusion through the use of macros that "guard" against
-      multiple definitions if the header file is included multiple
-      times.
-
-      -  Each header file must contain the following pre-processor
-         conditional logic near the beginning of the header file:
-         Between the file header and the "Included Files" block comment.
-         For example,
-
-         Notice that the definitions within of the header do not follow
-         the usually rules: The presence of the conditional test at the
-         top of the file does not cause the remaining definitions within
-         the file to be indented.
-
-      -  Then conditional compilation is closed at the fine line of the
-         header file with:
-
-      **Forming Guard Names**. Then pre-processor macro name used in the
-      guard is formed from the full, relative path to the header for
-      from the top-level, controlled directory. That path is preceded by
-      ``__`` and ``_`` replaces each character that would otherwise be
-      invalid in a macro name. So, for example, \__INCLUDE_NUTTX_ARCH_H
-      corresponds to the header file ``include/nuttx/arch.h``
-
-      **Deoxygen Information**. NuttX does not use Deoxygen for
-      documentation and no file should contain Doxygen tags or Doxygen
-      style comments.
-
-      **Sample File Formats**. C source and header file templates are
-      provided in an `Appendix <#appndxa>`__ to this document.
-
-      .. rubric:: 1.2 Lines
-         :name: lines
-
-      **Line Endings**. Files should be formatted with the newline
-      character (``\n``) as the line ending (Unix-style line endings)
-      and specifically *not* the carriage return, newline sequence
-      (``\r\n``) used with Windows-style line endings. There should be
-      no extra whitespace at the end of the line. In addition, all text
-      files should end in a single newline (``\n``). This avoids the
-      *"No newline at end of file"* warning generated by certain tools.
-
-      **Line Width**. Text should not extend past column 78 in the
-      typical C source or header file. Sometimes the nature of the
-      content of a file may require that the lines exceed this limit.
-      This often occurs in header files with naturally long definitions.
-      If the line width must extend 78 lines, then some wider line width
-      may be used in the file provided that it is used consistently.
-
-      **Line Wrapping**.
-
-      +-----------------------------------------------------------------------+
-      | **Incorrect**                                                         |
-      +-----------------------------------------------------------------------+
-      | **Correct**                                                           |
-      +-----------------------------------------------------------------------+
-
-      **NOTE**: See the discussion of `pointers <#farnear>`__ for
-      information about the ``FAR`` qualifier used above.
-
-      **Double Spacing**. A single blank line may be use to separate
-      logical groupings as the designer feels fit. Single blank lines
-      are also required in certain contexts as defined in this standard.
-      Additional blanks lines (two or more) are prohibited.
-
-      **Columnar Organization**. Similar things should be aligned on the
-      same column unless doing so would cause the line width to be
-      exceeded.
-
-      +-----------------------------------------------------------------------+
-      | **Acceptable**                                                        |
-      +-----------------------------------------------------------------------+
-      | **Preferred**                                                         |
-      +-----------------------------------------------------------------------+
-
-      **Block Comments** The final asterisk (``*``) should occur at
-      column 78 (or the line width of files with longer lines). Note
-      that the final comment delimiter of the block comment is an
-      exception an lies at column 79.
-
-      .. rubric:: 1.3 Comments
-         :name: comments
-
-      **General**. Within a comment, the text must be standard English
-      conforming to standard English rules of grammar and spelling (US
-      English spelling). Of course, this is not the place to summarize
-      all English grammar, but as examples of common grammatic issues in
-      comments:
-
-      -  All sentences should begin with an upper-case character and end
-         with either '.', '?', or '!'.
-      -  Sentence fragments and phrases are generally treated the same
-         as sentences.
-      -  The punctuation '.' and ':' is followed by two spaces; the
-         punctuation ',' and ';' is followed by a single space.
-      -  Text following '.' or ':' begins with an upper-case character;
-         text following ',' or ';' begins with a lower-case character.
-
-      **Line Spacing** A single blank line should precede and follow
-      each comment. The only exceptions are:
-
-      For the file header block comment that begins on line one; there
-      is no preceding blank line in that case.
-      For conditional compilation. Conditional compilation should
-      include the conditional logic *and* all comments associated with
-      the conditional logic. In this case, the blank line appears
-      *before* the conditional, not after it. No blank lines precede any
-      comments following the conditional.
-      With braces. No blank line separates the line containing the
-      opening left brace from a comment. No blank line follows a comment
-      that may be the final line preceding a closing right brace.
-      With Labels. No blank line separates the line containing the label
-      from a comment.
-      +-----------------------------------------------------------------------+
-      | **Incorrect**                                                         |
-      +-----------------------------------------------------------------------+
-      | **Correct**                                                           |
-      +-----------------------------------------------------------------------+
-
-      **Indentation** Comments should, typically, be placed before the
-      code section to which they apply. The comment indentation should
-      be the same as the follow indentation rules as the following code
-      (if applicable).
-
-      **Short, Single line comments**. Short comments must lie on a
-      single line. The comment delimiters must lie on the same line.
-
-      +-----------------------------------------------------------------------+
-      | **Incorrect**                                                         |
-      +-----------------------------------------------------------------------+
-      | **Correct**                                                           |
-      +-----------------------------------------------------------------------+
-
-      **Multi-line comments**. If the comment is too long to fit on a
-      single, it must be broken into a multi-line comment. The comment
-      must be begin on the first line of the multi-line comment with the
-      opening comment delimiter (``/*``). The following lines of the
-      multi-line comment must be with an asterisk (``*``) aligned in the
-      same column as the asterisk in the preceding line. The closing
-      comment delimiter must lie on a separate line with the asterisk
-      (``*``) aligned in the same column as the asterisk in the
-      preceding line.
-
-      +-----------------------------------------------------------------------+
-      | **Incorrect**                                                         |
-      +-----------------------------------------------------------------------+
-      | **Correct**                                                           |
-      +-----------------------------------------------------------------------+
-
-      **Comments to the Right of Statements**. Comments to the right of
-      statements in C source files are discouraged. If such comments are
-      used, they should be (1) very short so that they do not exceed the
-      line width (typically 78 characters), (2) aligned so that the
-      comment begins in the same column on each line.
-
-      +-----------------------------------------------------------------------+
-      | **Incorrect**                                                         |
-      +-----------------------------------------------------------------------+
-      | **Acceptable**                                                        |
-      +-----------------------------------------------------------------------+
-      | **Preferred**                                                         |
-      +-----------------------------------------------------------------------+
-
-      **Comments to the Right of Data Definitions**. Comments to the
-      right of a declaration with an enumeration or structure, on the
-      other hand, are encouraged, provided that the comments are short
-      and do not exceed the maximum line width (usually 78 characters).
-      Columnar alignment of comments is very desirable (but often cannot
-      be achieved without violating the line width).
-
-      +-----------------------------------------------------------------------+
-      | **Incorrect**                                                         |
-      +-----------------------------------------------------------------------+
-      | **Acceptable**                                                        |
-      +-----------------------------------------------------------------------+
-      | **Preferred**                                                         |
-      +-----------------------------------------------------------------------+
-
-      **Long Comments on the Right**. Comments on the right of
-      statements or data definitions must be short and fit on the same
-      line without exceeding the maximum line length. If a longer
-      comment is needed, then it should appear above the statement of
-      definition rather than to the right of the definition.
-
-      **Breaking Long Comments to the Right of Statements** Breaking
-      long comments to the right of statements is acceptable as well,
-      but not encouraged. In this case the comment must be begin on the
-      first line of the multi-line, right-hand comment with the opening
-      comment delimiter (/*). The following lines of the multi-line,
-      right hand comment must be with an asterisk (*) aligned in the
-      same column as the asterisk in the preceding line. The closing
-      comment delimiter must lie on the *same* line with the asterisk.
-
-      +-----------------------------------------------------------------------+
-      | **Incorrect**                                                         |
-      +-----------------------------------------------------------------------+
-      | **Acceptable**                                                        |
-      +-----------------------------------------------------------------------+
-      | **Preferred**                                                         |
-      +-----------------------------------------------------------------------+
-
-      **Note** that if the comment is continued on multiple lines, the
-      comment alignment and multi-line comment rules still apply with
-      one exception: The closing ``*/`` appears on the same line as the
-      final text of the comment. This exception to the rule is enforced
-      to keep the statements and definitions from becoming to spread
-      out.
-
-      **Block comments**. Block comments are only used to delimit
-      groupings with the overall `file
-      organization <#fileorganization>`__ and should not be used unless
-      the usage is consistent with delimiting logical groupings in the
-      program.
-
-      **C Style Comments**. C99/C11/C++ style comments (beginning with
-      ``//``) should not be used with NuttX. NuttX generally follows C89
-      and all code outside of architecture specific directories must be
-      compatible with C89.
-
-      **Incorrect**
+.. contents:: Table of Contents
+  :backlinks: top
+
+.. sectnum::
+
+*******************
+General Conventions
+*******************
+
+File Organization
+=================
+
+**File Extensions** Use the ``.h`` extension for C header files 
+and ``.c`` for C source files.
+
+**File header**. Every C, C++, make file, or script begins with a file header.
+That file header is enclosed with a *block comment* (see below). Within the
+block comment, the following must appear:
+
+  -  The relative path to the file from the top-level directory.
+  -  An optional, one-line description of the file contents.
+  -  A blank line
+  -  A copyright notice indented two additional spaces
+  -  A line identifying the author and contact information with the
+     same indentation as the copyright notice.
+  -  A blank line
+  -  NuttX standard Apache 2.0 licensing information as provided in
+     the `appendix <#appndxa>`__.
+
+**Sample File Headers**. Sample file headers are provided in an
+`Appendix <#appndxa>`__ to this document. No new software may be
+included in the NuttX source tree that does not have licensing
+information included in the file. No new software may be included
+in the NuttX source tree that does not have a Apache 2.0 license
+or license (or, in the case of 3rd party file, a compatible
+license such as the BSD or MIT licenses). If the file does not
+follow Apache 2.0 licensing, then the appropriate license
+information should be provided in the header rather than the
+Apache 2.0 licensing information and a NOTE should be included in
+the top-level ``COPYING`` file to indicate any variations from
+Apache 2.0 licensing.
+
+**Grouping**. All like components in a C source or header file are
+grouped together. Definitions do not appear arbitrarily through
+the file, rather, like definitions are grouped together and
+preceded by a *block comment* identifying the grouping.
+
+**Block Comments**. Each grouping in the file is separated with a
+*block comment*. The block comment consists of:
+
+-  A line that consists of the opening C comment (``/*``) followed
+   by a series of asterisks extending to the length of the line
+   (usually to column 78).
+-  The name of the grouping, starting at column 4. An asterisk
+   preceives the name of the grouping in column 1.
+-  A line that consists of the closing C comment (``*/``) at the
+   end of the line (usually column 78) preceded by a series of
+   asterisks extending to column 1.
+
+**Examples of Block Comments**. See `Appendix A <#appndxa>`__ for
+examples of block comments.
+
+**Order of Groupings**. The following groupings should appear in
+all C source files in the following order:
+
+#. Included Files
+#. Pre-processor Definitions
+#. Private Types (definitions)
+#. Private Function Prototypes (declarations)
+#. Private Data (definitions)
+#. Public Data (definitions)
+#. Private Functions (definitions)
+#. Public Functions (definitions)
+
+The following groupings should appear in all C header files in the
+following order:
+
+#. Included Files
+#. Pre-processor Definitions
+#. Public Types (definitions)
+#. Public Data (declarations)
+#. Inline Functions (definitions)
+#. Public Function Prototypes (declarations)
+
+**Large vs. Small Files**. In larger files, block comments should
+be included for all groupings, even if they are empty; the empty
+grouping provides important information in itself. Smaller files
+may omit some of the block comments; it is awkard if the block
+comments are larger than the file content!
+
+**Header File Idempotence**. C header file must protect against
+multiple inclusion through the use of macros that "guard" against
+multiple definitions if the header file is included multiple
+times.
+
+-  Each header file must contain the following pre-processor
+   conditional logic near the beginning of the header file:
+   Between the file header and the "Included Files" block comment.
+   For example,
+
+   Notice that the definitions within of the header do not follow
+   the usually rules: The presence of the conditional test at the
+   top of the file does not cause the remaining definitions within
+   the file to be indented.
+
+-  Then conditional compilation is closed at the fine line of the
+   header file with:
+
+**Forming Guard Names**. Then pre-processor macro name used in the
+guard is formed from the full, relative path to the header for
+from the top-level, controlled directory. That path is preceded by
+``__`` and ``_`` replaces each character that would otherwise be
+invalid in a macro name. So, for example, \__INCLUDE_NUTTX_ARCH_H
+corresponds to the header file ``include/nuttx/arch.h``
+
+**Deoxygen Information**. NuttX does not use Deoxygen for
+documentation and no file should contain Doxygen tags or Doxygen
+style comments.
+
+**Sample File Formats**. C source and header file templates are
+provided in an `Appendix <#appndxa>`__ to this document.
+
+Lines
+=====
+
+**Line Endings**. Files should be formatted with the newline
+character (``\n``) as the line ending (Unix-style line endings)
+and specifically *not* the carriage return, newline sequence
+(``\r\n``) used with Windows-style line endings. There should be
+no extra whitespace at the end of the line. In addition, all text
+files should end in a single newline (``\n``). This avoids the
+*"No newline at end of file"* warning generated by certain tools.
+
+**Line Width**. Text should not extend past column 78 in the
+typical C source or header file. Sometimes the nature of the
+content of a file may require that the lines exceed this limit.
+This often occurs in header files with naturally long definitions.
+If the line width must extend 78 lines, then some wider line width
+may be used in the file provided that it is used consistently.
+
+**Line Wrapping**.
+
++-----------------------------------------------------------------------+
+| **Incorrect**                                                         |
++-----------------------------------------------------------------------+
+| **Correct**                                                           |
++-----------------------------------------------------------------------+
+
+**NOTE**: See the discussion of `pointers <#farnear>`__ for
+information about the ``FAR`` qualifier used above.
+
+**Double Spacing**. A single blank line may be use to separate
+logical groupings as the designer feels fit. Single blank lines
+are also required in certain contexts as defined in this standard.
+Additional blanks lines (two or more) are prohibited.
+
+**Columnar Organization**. Similar things should be aligned on the
+same column unless doing so would cause the line width to be
+exceeded.
+
++-----------------------------------------------------------------------+
+| **Acceptable**                                                        |
++-----------------------------------------------------------------------+
+| **Preferred**                                                         |
++-----------------------------------------------------------------------+
+
+**Block Comments** The final asterisk (``*``) should occur at
+column 78 (or the line width of files with longer lines). Note
+that the final comment delimiter of the block comment is an
+exception an lies at column 79.
+
+Comments
+========
+
+**General**. Within a comment, the text must be standard English
+conforming to standard English rules of grammar and spelling (US
+English spelling). Of course, this is not the place to summarize
+all English grammar, but as examples of common grammatic issues in
+comments:
+
+-  All sentences should begin with an upper-case character and end
+   with either '.', '?', or '!'.
+-  Sentence fragments and phrases are generally treated the same
+   as sentences.
+-  The punctuation '.' and ':' is followed by two spaces; the
+   punctuation ',' and ';' is followed by a single space.
+-  Text following '.' or ':' begins with an upper-case character;
+   text following ',' or ';' begins with a lower-case character.
+
+**Line Spacing** A single blank line should precede and follow
+each comment. The only exceptions are:
+
+For the file header block comment that begins on line one; there
+is no preceding blank line in that case.
+For conditional compilation. Conditional compilation should
+include the conditional logic *and* all comments associated with
+the conditional logic. In this case, the blank line appears
+*before* the conditional, not after it. No blank lines precede any
+comments following the conditional.
+With braces. No blank line separates the line containing the
+opening left brace from a comment. No blank line follows a comment
+that may be the final line preceding a closing right brace.
+With Labels. No blank line separates the line containing the label
+from a comment.
++-----------------------------------------------------------------------+
+| **Incorrect**                                                         |
++-----------------------------------------------------------------------+
+| **Correct**                                                           |
++-----------------------------------------------------------------------+
+
+**Indentation** Comments should, typically, be placed before the
+code section to which they apply. The comment indentation should
+be the same as the follow indentation rules as the following code
+(if applicable).
+
+**Short, Single line comments**. Short comments must lie on a
+single line. The comment delimiters must lie on the same line.
+
++-----------------------------------------------------------------------+
+| **Incorrect**                                                         |
++-----------------------------------------------------------------------+
+| **Correct**                                                           |
++-----------------------------------------------------------------------+
+
+**Multi-line comments**. If the comment is too long to fit on a
+single, it must be broken into a multi-line comment. The comment
+must be begin on the first line of the multi-line comment with the
+opening comment delimiter (``/*``). The following lines of the
+multi-line comment must be with an asterisk (``*``) aligned in the
+same column as the asterisk in the preceding line. The closing
+comment delimiter must lie on a separate line with the asterisk
+(``*``) aligned in the same column as the asterisk in the
+preceding line.
+
++-----------------------------------------------------------------------+
+| **Incorrect**                                                         |
++-----------------------------------------------------------------------+
+| **Correct**                                                           |
++-----------------------------------------------------------------------+
+
+**Comments to the Right of Statements**. Comments to the right of
+statements in C source files are discouraged. If such comments are
+used, they should be (1) very short so that they do not exceed the
+line width (typically 78 characters), (2) aligned so that the
+comment begins in the same column on each line.
+
++-----------------------------------------------------------------------+
+| **Incorrect**                                                         |
++-----------------------------------------------------------------------+
+| **Acceptable**                                                        |
++-----------------------------------------------------------------------+
+| **Preferred**                                                         |
++-----------------------------------------------------------------------+
+
+**Comments to the Right of Data Definitions**. Comments to the
+right of a declaration with an enumeration or structure, on the
+other hand, are encouraged, provided that the comments are short
+and do not exceed the maximum line width (usually 78 characters).
+Columnar alignment of comments is very desirable (but often cannot
+be achieved without violating the line width).
+
++-----------------------------------------------------------------------+
+| **Incorrect**                                                         |
++-----------------------------------------------------------------------+
+| **Acceptable**                                                        |
++-----------------------------------------------------------------------+
+| **Preferred**                                                         |
++-----------------------------------------------------------------------+
+
+**Long Comments on the Right**. Comments on the right of
+statements or data definitions must be short and fit on the same
+line without exceeding the maximum line length. If a longer
+comment is needed, then it should appear above the statement of
+definition rather than to the right of the definition.
+
+**Breaking Long Comments to the Right of Statements** Breaking
+long comments to the right of statements is acceptable as well,
+but not encouraged. In this case the comment must be begin on the
+first line of the multi-line, right-hand comment with the opening
+comment delimiter (/*). The following lines of the multi-line,
+right hand comment must be with an asterisk (*) aligned in the
+same column as the asterisk in the preceding line. The closing
+comment delimiter must lie on the *same* line with the asterisk.
+
++-----------------------------------------------------------------------+
+| **Incorrect**                                                         |
++-----------------------------------------------------------------------+
+| **Acceptable**                                                        |
++-----------------------------------------------------------------------+
+| **Preferred**                                                         |
++-----------------------------------------------------------------------+
+
+**Note** that if the comment is continued on multiple lines, the
+comment alignment and multi-line comment rules still apply with
+one exception: The closing ``*/`` appears on the same line as the
+final text of the comment. This exception to the rule is enforced
+to keep the statements and definitions from becoming to spread
+out.
+
+**Block comments**. Block comments are only used to delimit
+groupings with the overall `file
+organization <#fileorganization>`__ and should not be used unless
+the usage is consistent with delimiting logical groupings in the
+program.
+
+**C Style Comments**. C99/C11/C++ style comments (beginning with
+``//``) should not be used with NuttX. NuttX generally follows C89
+and all code outside of architecture specific directories must be
+compatible with C89.
+
+**Incorrect**
 
 **Correct**
 
@@ -364,8 +329,8 @@ why the code is not compiled.
 
 **Correct**
 
-1.4 Braces
-==========
+Braces
+======
 
 In general, the use of braces in the NuttX coding standard is similar to
 the use of braces in the `GNU Coding
@@ -415,8 +380,8 @@ with the beginning of the definition
 | **Correct**                                                           |
 +-----------------------------------------------------------------------+
 
-1.5 Indentation
-===============
+Indentation
+===========
 
 In general, the indentation in the NuttX coding standard is similar to
 the indentation requirements of the `GNU Coding
@@ -492,8 +457,8 @@ conditional compilation does *not* cause any change to the indentation.
 | **Correct**                                                           |
 +-----------------------------------------------------------------------+
 
-1.6 Parentheses
-===============
+Parentheses
+===========
 
 **Coding Standard:**
 
@@ -527,13 +492,12 @@ force order of operations. There is no particular policy in this regard.
 However, you are are advised to check your C Programming Language book
 if necessary and avoid unnecessary parenthesis when possible.
 
-+-----------------------------------------------------------------------+
-| .. rubric:: 2.0 Data and Type Definitions                             |
-|    :name: data-and-type-definitions                                   |
-+-----------------------------------------------------------------------+
+*************************
+Data and Type Definitions
+*************************
 
-2.1 One Definition/Declaration Per Line
-=======================================
+One Definition/Declaration Per Line
+===================================
 
 +-----------------------------------------------------------------------+
 | **Incorrect**                                                         |
@@ -544,8 +508,8 @@ if necessary and avoid unnecessary parenthesis when possible.
 **NOTE**: See the discussion of `pointers <#farnear>`__ for information
 about the ``FAR`` qualifier used above.
 
-2.2 Global Variables
-====================
+Global Variables
+================
 
 **Global vs. Local vs. Public vs. Private** By a *global* variable it is
 meant any variable defined outside of a function. The distinction is
@@ -589,8 +553,8 @@ any variable that has more than local scope.
 | **Preferred**                                                         |
 +-----------------------------------------------------------------------+
 
-2.3 Parameters and Local Variables
-==================================
+Parameters and Local Variables
+==============================
 
 **Coding Standard:**
 
@@ -628,8 +592,8 @@ any variable that has more than local scope.
 used in the code base for the name of a local variable whose value will
 be returned or to received the returned value from a called function.
 
-2.4 Type Definitions
-====================
+Type Definitions
+================
 
 **Coding Standard:**
 
@@ -658,8 +622,8 @@ be returned or to received the returned value from a called function.
 **NOTE**: See the discussion of `pointers <#farnear>`__ for information
 about the ``FAR`` qualifier used above.
 
-2.5 Structures
-==============
+Structures
+==========
 
 **Structure Naming**
 
@@ -746,8 +710,8 @@ either ascending or descending size order.
 |                                                                       |
 +-----------------------------------------------------------------------+
 
-2.6 Unions
-==========
+Unions
+======
 
 **Union and Field Names**. Naming of unions and fields within unions
 follow the same naming rules as for `structures and structure
@@ -768,8 +732,8 @@ character variable and field names. The short field name ``u`` clearly
 identifies a union field and prevents the full name of the union value
 from being excessively long.
 
-2.7 Enumerations
-================
+Enumerations
+============
 
 **Enumeration Naming**. Naming of enumerations follow the same naming
 rules as for `structure <#structures>`__ and `union <#unions%22>`__
@@ -799,8 +763,8 @@ formatting <#lines>`__, `use of braces <#braces>`__,
 | **Example**                                                           |
 +-----------------------------------------------------------------------+
 
-2.8 C Pre-processor Macros
-==========================
+C Pre-processor Macros
+======================
 
 **Coding Standard:**
 
@@ -853,8 +817,8 @@ formatting <#lines>`__, `indentation <#indentation>`__, and
 | **Correct**                                                           |
 +-----------------------------------------------------------------------+
 
-2.9 Pointer Variables
-=====================
+Pointer Variables
+=================
 
 **Pointer Naming**. Pointers following same naming conventions as for
 other variable types. A pointer (or pointer-to-a-pointer) variable may
@@ -887,8 +851,8 @@ probably lie in a code address space and should have the qualifier
 have meaning to determine the size of the pointer (size in the sense of
 the width of the pointer value in bits).
 
-2.10 Initializers
-=================
+Initializers
+============
 
 **Applicable Coding Standards**. See the section related to
 `parentheses <#parentheses>`__.
@@ -902,13 +866,12 @@ where there is no possibility of the use of such older toolchains. C11
 is included in NuttX, but has not been verified and, hence, it not
 encourage anywhere.
 
-+-----------------------------------------------------------------------+
-| .. rubric:: 3.0 Functions                                             |
-|    :name: functions                                                   |
-+-----------------------------------------------------------------------+
+*********
+Functions
+*********
 
-3.1 Function Headers
-====================
+Function Headers
+================
 
 **Coding Standard:**
 
@@ -960,8 +923,8 @@ encourage anywhere.
 **Function header template**. Refer to `Appendix A <#cfilestructure>`__
 for the template for a function header.
 
-3.2 Function Naming
-===================
+Function Naming
+===============
 
 **Coding Standard:**
 
@@ -995,8 +958,8 @@ for the template for a function header.
    indicate what is testing and the return value of ``true`` should be
    consistent with result of the test being true.
 
-3.3 Parameter Lists
-===================
+Parameter Lists
+===============
 
 **Coding Standards**. See general rules for `parameter
 naming <#localvariable>`__. See also the sections related to the use of
@@ -1006,8 +969,8 @@ naming <#localvariable>`__. See also the sections related to the use of
 encouraged. This is appropriate to indicate that the function will not
 modify the object.
 
-3.4 Function Body
-=================
+Function Body
+=============
 
 **Coding Standard:**
 
@@ -1076,13 +1039,12 @@ always suspicious. All calls to ``malloc`` or ``realloc``, in
 particular, must be checked for failures to allocate memory to avoid use
 of NULL pointers.
 
-+-----------------------------------------------------------------------+
-| .. rubric:: 4.0 Statements                                            |
-|    :name: statements                                                  |
-+-----------------------------------------------------------------------+
+**********
+Statements                                            
+**********
 
-4.1 One Statement Per Line
---------------------------
+One Statement Per Line
+======================
 
 **Coding Standard:**
 
@@ -1103,8 +1065,8 @@ use of `braces <#braces>`__.
 | **Correct**                                                           |
 +-----------------------------------------------------------------------+
 
-4.2 Casts
-=========
+Casts
+=====
 
 **Coding Standard:**
 
@@ -1117,8 +1079,8 @@ use of `braces <#braces>`__.
 | **Correct**                                                           |
 +-----------------------------------------------------------------------+
 
-4.3 Operators
-=============
+Operators
+=========
 
 **Spaces before and after binary operators**. All binary operators
 (operators that come between two values), such as ``+``, ``-``, ``=``,
@@ -1150,8 +1112,8 @@ were to appear first. For example, ``a =++ b;`` could also be
 interpreted as ``a =+ +b;`` or ``a = ++b`` all of which are very
 different.
 
-4.4 ``if then else`` Statement
-==============================
+``if then else`` Statement
+==========================
 
 **Coding Standard:**
 
@@ -1212,8 +1174,8 @@ braces <#braces>`__ and `indentation <#indentation>`__.
 | **Example**                                                           |
 +-----------------------------------------------------------------------+
 
-4.5 ``switch`` Statement
-========================
+``switch`` Statement
+====================
 
 **Definitions:**
 
@@ -1260,8 +1222,8 @@ braces <#braces>`__, `indentation <#indentation>`__, and
 | **Example**                                                           |
 +-----------------------------------------------------------------------+
 
-4.6 ``while`` Statement
-=======================
+``while`` Statement
+===================
 
 **Coding Standard:**
 
@@ -1299,8 +1261,8 @@ braces <#braces>`__, `indentation <#indentation>`__, and
 | **Correct**                                                           |
 +-----------------------------------------------------------------------+
 
-4.7 ``do while`` Statement
-==========================
+``do while`` Statement
+======================
 
 **Coding Standard:**
 
@@ -1329,8 +1291,8 @@ braces <#braces>`__, `indentation <#indentation>`__, and
 | **Correct**                                                           |
 +-----------------------------------------------------------------------+
 
-4.8 Use of ``goto``
-===================
+Use of ``goto``
+===============
 
 **Coding Standard:**
 
@@ -1356,10 +1318,9 @@ braces <#braces>`__, `indentation <#indentation>`__, and
 **NOTE**: See the discussion of `pointers <#farnear>`__ for information
 about the ``FAR`` qualifier used above.
 
-+-----------------------------------------------------------------------+
-| .. rubric:: 5.0 C++                                                   |
-|    :name: c                                                           |
-+-----------------------------------------------------------------------+
+***
+C++
+***
 
 There is no existing document that provides a complete coding standard
 for NuttX C++ files. This section is included here to provide some
@@ -1424,13 +1385,12 @@ names begin with a capital letter identifying what is being named:
    Enumerations begin with an upper case '**E**'. For example,
    ``EMyEnumeration``. The suffix ``_e`` is never used.
 
-+-----------------------------------------------------------------------+
-| .. rubric:: Appendix A                                                |
-|    :name: appendix-a                                                  |
-+-----------------------------------------------------------------------+
+********
+Appendix
+********
 
-A.1 C Source File Structure
-===========================
+C Source File Structure
+=======================
 
 ::
 
@@ -1557,129 +1517,129 @@ preceded by a function header similar to the above.*
 
 *All global functions in the file are defined here.*
 
-A.2 C Header File Structure
-===========================
+C Header File Structure
+=======================
 
 ::
 
-   /****************************************************************************
-    * <Relative path to the file>
-    * <Optional one line file description>
-    *
-    * Licensed to the Apache Software Foundation (ASF) under one or more
-    * contributor license agreements.  See the NOTICE file distributed with
-    * this work for additional information regarding copyright ownership.  The
-    * ASF licenses this file to you under the Apache License, Version 2.0 (the
-    * "License"); you may not use this file except in compliance with the
-    * License.  You may obtain a copy of the License at
-    *
-    *   http://www.apache.org/licenses/LICENSE-2.0
-    *
-    * Unless required by applicable law or agreed to in writing, software
-    * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-    * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
-    * License for the specific language governing permissions and limitations
-    * under the License.
-    *
-    ****************************************************************************/
+  /****************************************************************************
+  * <Relative path to the file>
+  * <Optional one line file description>
+  *
+  * Licensed to the Apache Software Foundation (ASF) under one or more
+  * contributor license agreements.  See the NOTICE file distributed with
+  * this work for additional information regarding copyright ownership.  The
+  * ASF licenses this file to you under the Apache License, Version 2.0 (the
+  * "License"); you may not use this file except in compliance with the
+  * License.  You may obtain a copy of the License at
+  *
+  *   http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+  * License for the specific language governing permissions and limitations
+  * under the License.
+  *
+  ****************************************************************************/
 
 *Header file*\ `idempotence <#idempotence>`__\ *definitions go here*
 
 ::
 
-   /****************************************************************************
-    * Included Files
-    ****************************************************************************/
-
+  /****************************************************************************
+  * Included Files
+  ****************************************************************************/
+  
 *All header files are included here.*
 
 ::
 
-   /****************************************************************************
-    * Pre-processor Definitions
-    ****************************************************************************/
-
+  /****************************************************************************
+  * Pre-processor Definitions
+  ****************************************************************************/
+  
 *All C pre-processor macros are defined here.*
 
 ::
 
-   /****************************************************************************
-    * Public Types
-    ****************************************************************************/
-
-   #ifndef __ASSEMBLY__
+  /****************************************************************************
+  * Public Types
+  ****************************************************************************/
+  
+  #ifndef __ASSEMBLY__
 
 *Any types, enumerations, structures or unions are defined here.*
 
 ::
-
-   /****************************************************************************
-    * Public Data
-    ****************************************************************************/
-
-   #ifdef __cplusplus
-   #define EXTERN extern "C"
-   extern "C"
-   {
-   #else
-   #define EXTERN extern
-   #endif
+  
+  /****************************************************************************
+  * Public Data
+  ****************************************************************************/
+  
+  #ifdef __cplusplus
+  #define EXTERN extern "C"
+  extern "C"
+  {
+  #else
+  #define EXTERN extern
+  #endif
 
 *All data declarations with global scope appear here, preceded by the
 definition ``EXTERN``.*
 
 ::
 
-   /****************************************************************************
-    * Inline Functions
-    ****************************************************************************/
+ /****************************************************************************
+  * Inline Functions
+  ****************************************************************************/
 
-   /****************************************************************************
-    * Name: <Inline function name>
-    *
-    * Description:
-    *   Description of the operation of the inline function.
-    *
-    * Input Parameters:
-    *   A list of input parameters, one-per-line, appears here along with a
-    *   description of each input parameter.
-    *
-    * Returned Value:
-    *   Description of the value returned by this function (if any),
-    *   including an enumeration of all possible error values.
-    *
-    * Assumptions/Limitations:
-    *   Anything else that one might need to know to use this function.
-    *
-    ****************************************************************************/
+ /****************************************************************************
+  * Name: <Inline function name>
+  *
+  * Description:
+  *   Description of the operation of the inline function.
+  *
+  * Input Parameters:
+  *   A list of input parameters, one-per-line, appears here along with a
+  *   description of each input parameter.
+  *
+  * Returned Value:
+  *   Description of the value returned by this function (if any),
+  *   including an enumeration of all possible error values.
+  *
+  * Assumptions/Limitations:
+  *   Anything else that one might need to know to use this function.
+  *
+  ****************************************************************************/
 
 *Any static inline functions may be defined in this grouping. Each is
 preceded by a function header similar to the above.*
 
 ::
 
-   /****************************************************************************
-    * Public Function Prototypes
-    ****************************************************************************/
+  /****************************************************************************
+  * Public Function Prototypes
+  ****************************************************************************/
 
-   /****************************************************************************
-    * Name: <Global function name>
-    *
-    * Description:
-    *   Description of the operation of the function.
-    *
-    * Input Parameters:
-    *   A list of input parameters, one-per-line, appears here along with a
-    *   description of each input parameter.
-    *
-    * Returned Value:
-    *   Description of the value returned by this function (if any),
-    *   including an enumeration of all possible error values.
-    *
-    * Assumptions/Limitations:
-    *   Anything else that one might need to know to use this function.
-    *
-    ****************************************************************************/
+  /****************************************************************************
+  * Name: <Global function name>
+  *
+  * Description:
+  *   Description of the operation of the function.
+  *
+  * Input Parameters:
+  *   A list of input parameters, one-per-line, appears here along with a
+  *   description of each input parameter.
+  *
+  * Returned Value:
+  *   Description of the value returned by this function (if any),
+  *   including an enumeration of all possible error values.
+  *
+  * Assumptions/Limitations:
+  *   Anything else that one might need to know to use this function.
+  *
+  ****************************************************************************/
 
 *All global functions in the file are prototyped here. The keyword
 ``extern`` or the definition ``EXTERN`` are never used with function
