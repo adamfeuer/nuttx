@@ -33,12 +33,14 @@ jobs:
         name: sphinx-docs
         path: doc/_build/html/
     - name: Commit documentation changes
+      if: github.event_name != 'pull_request'
       run: |
         git clone https://github.com/v01d/incubator-nuttx.git --branch gh-pages --single-branch gh-pages
         cd gh-pages
-        rm -rf *
-        cp -r ../doc/_build/html/* .
-        touch .nojekyll
+        rm -rf ${GITHUB_REF##*/}
+        mkdir -p ${GITHUB_REF##*/}
+        cd ${GITHUB_REF##*/}
+        cp -r ../../doc/_build/html/* .
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add .
@@ -46,6 +48,7 @@ jobs:
         # The above command will fail if no changes were present, so we ignore
         # the return code.
     - name: Push changes
+      if: github.event_name != 'pull_request'
       uses: ad-m/github-push-action@master
       with:
         branch: gh-pages
