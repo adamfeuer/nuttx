@@ -16,10 +16,6 @@ Table of Contents
 
 * :ref:`overview`
   What is NuttX? Look at all those files and features... How can it be a tiny OS?
-* :ref:`discussion-group`
-  Do you want to talk about NuttX features? Do you need some help? Problems? Bugs?
-* :ref:`downloads`
-  Where can I get NuttX? What is the current development status?
 * :ref:`supported-platforms`
   What target platforms has NuttX been ported to?
 * :ref:`development-environments`
@@ -314,54 +310,6 @@ OS with all of that?
     Weak symbols prevent object files from being drawn into the link even if they are accessed from source code.
     Careful use of weak symbols is another trick for keep unused code out of the final binary.
 
-
-.. _discussion-group:
-
-NuttX Discussion Group
-----------------------
-
-Most NuttX-related discussion occurs on the `Google NuttX group <https://groups.google.com/forum/#!forum/nuttx>`__. You are
-cordially invited to join. In most cases, I make a special effort to answer any questions and provide any help that I can.
-
-
-.. _downloads:
-
-Downloads
----------
-
-      .. rubric:: Git Repository
-         :name: git-repository
-
-      The working version of NuttX is available from the Bitbucket GIT
-      repository
-      `here <https://bitbucket.org/nuttx/nuttx/src/master/>`__. That
-      same page provides the URLs and instructions for *cloning* the GIT
-      repository.
-
-      .. rubric:: Released Versions
-         :name: released-versions
-
-      In addition to the ever-changing GIT repository, there are frozen
-      released versions of NuttX available. The current release is NuttX
-      9.0. NuttX 9.0 is the 134\ :sup:`rd` release of NuttX. It was
-      released on April 30, 2020, and is available for download from the
-      `nuttx.apache.org <https://nuttx.apache.org/>`__ website. Note
-      that the release consists of two tarballs:
-      ``apache-nuttx-9.0.x-incubating.tar.gz`` and
-      ``apache-nuttx-apps-9.0.x-incubating.tar.gz``. Both may be needed
-      (see the top-level ``nuttx/README.txt`` file for build
-      information).
-
-      .. rubric:: Release Notes and Change Logs:
-         :name: release-notes-and-change-logs
-
-      -  **nuttx**.
-
-      -  **apps**.
-
-      -  **NxWidgets**.
-
-      -  **buildroot**.
 
 .. _supported-platforms:
 
