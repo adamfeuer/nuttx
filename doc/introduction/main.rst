@@ -1,18 +1,15 @@
 .. include:: /substitutions.rst
 .. _main:
 
+.. _nuttx-rtos:
+
 ===================
-NuttX Documentation
+NuttX RTOS
 ===================
 
 .. _table-of-contents:
 
-.. _nuttx-rtos:
-
-NuttX RTOS
-==========
-
-       Last Updated: April 16, 2020
+Last Updated: |today|
 
 Table of Contents
 -----------------
