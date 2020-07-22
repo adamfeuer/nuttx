@@ -71,3 +71,5 @@ html_favicon = '_static/favicon.ico'
 
 highlight_language = 'c'
 
+today_fmt = '%d %B %y at %H:%M'
+
