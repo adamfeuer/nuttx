@@ -1,10 +1,6 @@
 Introduction
 ============
 
-.. toctree::
-   :maxdepth: 3
-   :caption: Contents:
-
 `Apache NuttX <https://nuttx.incubator.apache.org/>`_ is a very capable, configurable, fast,
 `POSIX <https://en.wikipedia.org/wiki/POSIX>`_-compatible, internet-connected
 `real-time operating system <https://en.wikipedia.org/wiki/Real-time_operating_system>`_.
@@ -15,17 +11,10 @@ with something easier to navigate, extend, and modify.
 This is a work in progress, many links don't work and a lot of formatting is broken.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
+   :caption: Contents:
 
    main
    resources
-   contributing
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 
