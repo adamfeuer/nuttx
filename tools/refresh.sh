@@ -129,7 +129,7 @@ for CONFIG in ${CONFIGS}; do
     BOARDSUBDIR=`echo ${CONFIG} | cut -d':' -f1`
   fi
 
-  BOARDDIR=boards/*/*/$BOARDSUBDIR
+  BOARDDIR="$(ls -d boards/*/*/$BOARDSUBDIR)"
   SCRIPTSDIR=$BOARDDIR/scripts
   MAKEDEFS1=$SCRIPTSDIR/Make.defs
 
