@@ -28,7 +28,10 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <debug.h>
+#include <sys/types.h>
 
+#include <nuttx/config.h>
+#include <nuttx/irq.h>
 #include <nuttx/board.h>
 
 #include "chip.h"

@@ -1815,7 +1815,7 @@ struct spi_dev_s *sam_spibus_initialize(int port)
 
           sam_configgpio(GPIO_SPI0_MISO);
           sam_configgpio(GPIO_SPI0_MOSI);
-          sam_configgpio(GPIO_SPI0_SPCK);
+          sam_configgpio(GPIO_SPI0_SPCK_1);
         }
 #endif
 #if defined(CONFIG_SAM34_SPI0) && defined(CONFIG_SAM34_SPI1)

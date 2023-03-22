@@ -45,8 +45,17 @@ CSRCS += sam_lcd.c
 endif
 endif
 
+ifeq ($(CONFIG_SPI),y)
+CSRCS += sam_spi.c
+endif
+
 ifeq ($(CONFIG_BOARDCTL),y)
 CSRCS += sam_appinit.c
+endif
+
+CONFIG_HACKEEG=y
+ifeq ($(CONFIG_HACKEEG),y)
+CSRCS += sam_hackeeg.c
 endif
 
 include $(TOPDIR)/boards/Board.mk

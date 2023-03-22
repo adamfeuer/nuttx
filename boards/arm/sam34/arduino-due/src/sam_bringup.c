@@ -34,6 +34,11 @@
 #include <arch/board/board.h>
 #include "arduino-due.h"
 
+#include "arm_internal.h"
+#include "chip.h"
+#include "sam_gpio.h"
+#include "sam_spi.h"
+
 /****************************************************************************
  * Pre-processor Definitions
  ****************************************************************************/
