@@ -129,8 +129,6 @@ int sam_bringup(void)
     }
 #endif
 
-  UNUSED(ret);
-
 #ifdef HAVE_LEDS
   board_userled_initialize();
 

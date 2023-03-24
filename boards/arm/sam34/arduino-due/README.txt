@@ -863,7 +863,7 @@ Configuration sub-directories
        2013-7-2:  TSC is not responding.  All 0's received on SPI.
 
   nsh-leds:
-   This configuration directory will build the NuttX Shell and enable the user
-   LEDS (/dev/userleds). It will also enable the LED example program (leds).
-   Running the leds command will start up an LED daemon which will light up the 
-   L (user), TX, and RX LEDs in a binary sequence. 
+    This configuration directory will build the NuttX Shell and enable the user
+    LEDS (/dev/userleds). It will also enable the LED example program (leds).
+    Running the leds command will start up an LED daemon which will light up the 
+    L (user), TX, and RX LEDs in a binary sequence. 
