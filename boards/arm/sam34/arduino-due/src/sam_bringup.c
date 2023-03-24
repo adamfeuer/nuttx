@@ -31,13 +31,14 @@
 #include <nuttx/fs/fs.h>
 #include <nuttx/leds/userled.h>
 
-#include <arch/board/board.h>
 #include "arduino-due.h"
 
 #include "arm_internal.h"
 #include "chip.h"
 #include "sam_gpio.h"
 #include "sam_spi.h"
+
+#include <arch/board/board.h>
 
 /****************************************************************************
  * Pre-processor Definitions

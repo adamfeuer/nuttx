@@ -31,13 +31,14 @@
 #include <errno.h>
 
 #include <nuttx/spi/spi.h>
-#include <arch/board/board.h>
 
 #include "arm_internal.h"
 #include "chip.h"
 #include "sam_gpio.h"
 #include "sam_spi.h"
 #include "arduino-due.h"
+
+#include <arch/board/board.h>
 
 #ifdef CONFIG_SAM34_SPI0
 

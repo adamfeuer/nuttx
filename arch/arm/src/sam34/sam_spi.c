@@ -34,8 +34,6 @@
 #include <assert.h>
 #include <debug.h>
 
-#include <arch/board/board.h>
-
 #include <nuttx/irq.h>
 #include <nuttx/arch.h>
 #include <nuttx/kmalloc.h>
@@ -55,6 +53,8 @@
 #include "hardware/sam_dmac.h"
 #include "hardware/sam_spi.h"
 #include "hardware/sam_pinmap.h"
+
+#include <arch/board/board.h>
 
 #if defined(CONFIG_SAM34_SPI0) || defined(CONFIG_SAM34_SPI1)
 
