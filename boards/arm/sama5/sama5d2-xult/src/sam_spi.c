@@ -64,6 +64,7 @@ void weak_function sam_spidev_initialize(void)
 #endif
 
 #ifdef CONFIG_SAMA5_SPI1
+  sam_configpio(PIO_SPI1_NPCS1);
 #endif
 }
 
@@ -169,7 +170,7 @@ uint8_t sam_spi0status(struct spi_dev_s *dev, uint32_t devid)
 }
 #endif
 
-#ifdef CONFIG_SAMA5_SPI0
+#ifdef CONFIG_SAMA5_SPI1
 uint8_t sam_spi1status(struct spi_dev_s *dev, uint32_t devid)
 {
   return 0;

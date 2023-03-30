@@ -77,6 +77,21 @@ config ADS1255_FREQUENCY
 
 endif # ADC_ADS125X
 
+config ADC_ADS129X
+	bool "TI ADS1298/ADS1299 support"
+	default n
+	select SPI
+	select SCHED_HPWORK
+	depends on ALLOW_BSD_COMPONENTS
+
+if ADC_ADS129X
+
+config ADS129X_FREQUENCY
+	int "ADS1298/ADS1299 SPI frequency"
+	default 20000000
+
+endif # ADC_ADS129X
+
 config ADC_LTC1867L
 	bool "LTC 1863L/1867L support"
 	default n

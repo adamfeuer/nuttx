@@ -32,11 +32,18 @@
 
 #include <nuttx/fs/fs.h>
 #include <nuttx/irq.h>
+#include <nuttx/spi/spi.h>
+#include <nuttx/analog/adc.h>
 #include <nuttx/kthread.h>
 #include <nuttx/usb/usbdev.h>
 #include <nuttx/usb/usbhost.h>
 #include <nuttx/usb/usbdev_trace.h>
 
+#include <nuttx/analog/ads1299.h>
+#include <nuttx/analog/ads129X.h>
+
+#include "sam_adc.h"
+#include "sam_spi.h"
 #include "sama5d2-xult.h"
 
 #ifdef CONFIG_CDCACM
@@ -399,7 +406,8 @@ int sam_bringup(void)
 #ifdef CONFIG_ADC
   /* Initialize ADC and register the ADC driver. */
 
-  ret = sam_adc_setup();
+  //ret = sam_adc_setup();
+  ret = 0;
   if (ret < 0)
     {
       syslog(LOG_ERR, "ERROR: sam_adc_setup failed: %d\n", ret);
@@ -457,6 +465,28 @@ int sam_bringup(void)
       _err("ERROR: cdcecm_initialize() failed: %d\n", ret);
     }
 #endif
+
+
+#if defined(CONFIG_SPI) && defined(CONFIG_SAMA5_SPI1)
+    /* Initialize the ADS1299 ADC SPI bus */
+
+    struct spi_dev_s *spi;
+    spiinfo("sam_bringup: About to call sam_spibus_initialize.");
+    spi = sam_spibus_initialize(1);
+    if (!spi)
+    {
+      spierr("board_app_initialize: Failed to initialize the SPI bus.\n");
+      return NULL;
+    }
+
+#if defined(CONFIG_ADC_ADS129X)
+    int devno = 0;
+    spiinfo("sam_bringup: Initializing ADS1299.\n");
+    // up_ads1299initialize(spi, devno);
+#endif
+
+#endif
+
 
   /* If we got here then perhaps not all initialization was successful, but
    * at least enough succeeded to bring-up NSH with perhaps reduced
