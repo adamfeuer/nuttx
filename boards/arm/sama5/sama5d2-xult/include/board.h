@@ -283,7 +283,7 @@
 /* There is an RGB LED on board the SAMA5D2-XULT.
  * The RED component is driven by the SDHC_CD pin (PA13) and so will not
  * be used.  The LEDs are provided VDD_LED and so bringing the LED low will
- * will illuminated the LED.
+ * will illuminate the LED.
  *
  *   ------------------------------ ------------------- ---------------------
  *   SAMA5D2 PIO                    SIGNAL              USAGE
