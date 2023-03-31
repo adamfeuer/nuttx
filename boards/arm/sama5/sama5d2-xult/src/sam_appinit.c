@@ -91,7 +91,7 @@
 // Arduino Due pin: D23
 // SAMA5 pin: PA14 
 // const int PIN_CS = 23;   // board 0: JP2, pos. 3
-#define PIN_CS         (PIO_CFG_DEFAULT | PIO_PORT_PIOA | PIO_PIN14 | PIO_CFGR_DIR_OUTPUT) 
+#define PIN_CS         (PIO_CFG_DEFAULT | PIO_PORT_PIOA | PIO_PIN14 | PIO_OUTPUT) 
 
 void test_gpio(void) {
   spiinfo("test_gpio: starting.");
@@ -110,26 +110,26 @@ void test_gpio(void) {
   sam_piowrite(PIN_LED_BLUE, LOW); // Blue LED on
   for (int i=0; i<50; i++) {
     sam_piowrite(PIN_LED_BLUE, LOW);
+    usleep(100*1000);
+    sam_piowrite(PIN_LED_BLUE, HIGH);
+    usleep(100*1000);
+  }
+  while (true) {
+    sam_piowrite(PIN_LED_BLUE, LOW);
+    sam_piowrite(PIN_START, LOW);
+    sam_piowrite(IPIN_PWDN, LOW);
+    sam_piowrite(PIN_CLKSEL, LOW);
+    sam_piowrite(IPIN_RESET, LOW);
+    sam_piowrite(PIN_CS, LOW);
     usleep(200*1000);
     sam_piowrite(PIN_LED_BLUE, HIGH);
+    sam_piowrite(PIN_START, HIGH);
+    sam_piowrite(IPIN_PWDN, HIGH);
+    sam_piowrite(PIN_CLKSEL, HIGH);
+    sam_piowrite(IPIN_RESET, HIGH);
+    sam_piowrite(PIN_CS, HIGH);
     usleep(200*1000);
   }
-  // while (true) {
-  //   sam_piowrite(PIN_LED, LOW);
-  //   sam_piowrite(PIN_START, LOW);
-  //   sam_piowrite(IPIN_PWDN, LOW);
-  //   sam_piowrite(PIN_CLKSEL, LOW);
-  //   sam_piowrite(IPIN_RESET, LOW);
-  //   sam_piowrite(PIN_CS, LOW);
-  //   usleep(200*1000);
-  //   sam_piowrite(PIN_LED, HIGH);
-  //   sam_piowrite(PIN_START, HIGH);
-  //   sam_piowrite(IPIN_PWDN, HIGH);
-  //   sam_piowrite(PIN_CLKSEL, HIGH);
-  //   sam_piowrite(IPIN_RESET, HIGH);
-  //   sam_piowrite(PIN_CS, HIGH);
-  //   usleep(200*1000);
-  // }
 }
 
 /****************************************************************************
