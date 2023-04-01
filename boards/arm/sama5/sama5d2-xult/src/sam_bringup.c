@@ -482,7 +482,7 @@ int sam_bringup(void)
 #if defined(CONFIG_ADC_ADS129X)
     int devno = 0;
     spiinfo("sam_bringup: Initializing ADS1299.\n");
-    // up_ads1299initialize(spi, devno);
+    up_ads1299initialize(spi, devno);
 #endif
 
 #endif

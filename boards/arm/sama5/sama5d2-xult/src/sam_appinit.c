@@ -42,7 +42,6 @@
  ****************************************************************************/
 
 /*
-*/
 
 #define LOW false
 #define HIGH true
@@ -131,6 +130,7 @@ void test_gpio(void) {
     usleep(200*1000);
   }
 }
+*/
 
 /****************************************************************************
  * Name: board_ioctl
@@ -218,10 +218,10 @@ int board_app_initialize(uintptr_t arg)
   /* Perform board initialization */
 
   mcinfo("Entry\n");
-  // return sam_bringup();
-  int ret = sam_bringup();
-  test_gpio();
-  return ret;
+  return sam_bringup();
+  // int ret = sam_bringup();
+  // test_gpio();
+  // return ret;
 #else
   return OK;
 #endif
