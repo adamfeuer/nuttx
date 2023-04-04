@@ -92,6 +92,11 @@
 // const int PIN_CS = 23;   // board 0: JP2, pos. 3
 #define PIN_CS         (PIO_CFG_DEFAULT | PIO_PORT_PIOA | PIO_PIN14 | PIO_OUTPUT) 
 
+// from _sama5d2x_pinmap.h
+#define PIO_SPI1_MISO_1      (PIO_PERIPHA | PIO_CFG_DEFAULT | PIO_PORT_PIOD | PIO_PIN27)
+#define PIO_SPI1_MOSI_1      (PIO_PERIPHA | PIO_CFG_DEFAULT | PIO_PORT_PIOD | PIO_PIN26)
+#define PIO_SPI1_SPCK_1      (PIO_PERIPHA | PIO_CFG_DEFAULT | PIO_PORT_PIOD | PIO_PIN25)
+
 void test_gpio(void) {
   spiinfo("test_gpio: starting.");
   spiinfo("PIN_START configuration: (hex): %x\n", PIN_START);

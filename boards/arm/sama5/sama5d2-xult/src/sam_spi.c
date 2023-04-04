@@ -64,7 +64,9 @@ void weak_function sam_spidev_initialize(void)
 #endif
 
 #ifdef CONFIG_SAMA5_SPI1
-  sam_configpio(PIO_SPI1_NPCS1);
+  // sam_configpio(PIO_SPI1_NPCS1);
+  #define PIN_CS         (PIO_CFG_DEFAULT | PIO_PORT_PIOA | PIO_PIN14 | PIO_OUTPUT) 
+  sam_configpio(PIN_CS);
 #endif
 }
 
@@ -146,6 +148,7 @@ void sam_spi0select(uint32_t devid, bool selected)
 #ifdef CONFIG_SAMA5_SPI1
 void sam_spi1select(uint32_t devid, bool selected)
 {
+      sam_piowrite(PIN_CS, !selected);
 }
 #endif
 
