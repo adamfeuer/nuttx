@@ -497,10 +497,12 @@ FAR struct adc_dev_s *up_ads1299initialize(FAR struct spi_dev_s *spi,
     (FAR struct ads1299_dev_s *)g_adcdev.ad_priv;
 
   DEBUGASSERT(spi != NULL);
+  struct spi_dev_s *flexcom0_spi = sam_flex_spibus_initialize(0);
 
   /* Driver state data */
 
-  priv->spi      = spi;
+  // priv->spi      = spi;
+  priv->spi      = flexcom0_spi;
   priv->devno    = devno;
 
   SPI_LOCK(spi, true);

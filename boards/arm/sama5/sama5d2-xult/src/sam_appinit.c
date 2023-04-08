@@ -222,6 +222,12 @@ int board_app_initialize(uintptr_t arg)
 #ifndef CONFIG_BOARD_LATE_INITIALIZE
   /* Perform board initialization */
 
+  // Flexcom PIO
+  sam_configpio(PIO_FLEXCOM0_IO1);
+  sam_configpio(PIO_FLEXCOM0_IO0);
+  sam_configpio(PIO_FLEXCOM0_IO3);
+  sam_configpio(PIO_FLEXCOM0_IO2);     
+
   mcinfo("Entry\n");
   return sam_bringup();
   // int ret = sam_bringup();

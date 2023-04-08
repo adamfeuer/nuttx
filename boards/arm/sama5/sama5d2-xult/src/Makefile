@@ -30,6 +30,10 @@ CSRCS += sam_spi.c
 endif
 endif
 
+ifeq ($(CONFIG_SAMA5_FLEXCOM0),y)
+CSRCS += sam_flexcom_spi.c
+endif
+
 ifeq ($(CONFIG_SAMA5_DDRCS),y)
 CSRCS += sam_sdram.c
 endif

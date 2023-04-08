@@ -502,10 +502,13 @@
  *   ---- ------- ---- --------
  */
 
+// Native SPI
 #define PIO_SPI1_MISO     PIO_SPI1_MISO_1
 #define PIO_SPI1_MOSI     PIO_SPI1_MOSI_1
 #define PIO_SPI1_NPCS1    PIO_SPI1_NPCS1_1
 #define PIO_SPI1_SPCK     PIO_SPI1_SPCK_1
+
+
 
 /* SPI0 Definition on EXP */
 

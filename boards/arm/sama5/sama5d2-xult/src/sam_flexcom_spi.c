@@ -38,7 +38,7 @@
 #include "sam_spi.h"
 #include "sama5d2-xult.h"
 
-#if defined(CONFIG_SAMA5_SPI0) || defined(CONFIG_SAMA5_SPI1)
+#if defined(CONFIG_SAMA5_FLEXCOM0)
 
 /****************************************************************************
  * Public Functions
@@ -53,18 +53,9 @@
  *
  ****************************************************************************/
 
-void weak_function sam_spidev_initialize(void)
+void weak_function sam_flexcom0_spidev_initialize(void)
 {
-#ifdef CONFIG_SAMA5_SPI0
-#ifdef CONFIG_MTD_AT25
-  /* The AT25 serial FLASH connects using NPCS0 */
-
-  sam_configpio(PIO_AT25_NPCS0);
-#endif
-#endif
-
-#ifdef CONFIG_SAMA5_SPI1
-  // sam_configpio(PIO_SPI1_NPCS1);
+#ifdef CONFIG_SAMA5_FLEXCOM0_SPI
   #define PIN_CS         (PIO_CFG_DEFAULT | PIO_PORT_PIOB | PIO_PIN31 | PIO_OUTPUT) 
   sam_configpio(PIN_CS);
 #endif
@@ -131,24 +122,9 @@ void weak_function sam_spidev_initialize(void)
  *
  ****************************************************************************/
 
-#ifdef CONFIG_SAMA5_SPI0
-void sam_spi0select(uint32_t devid, bool selected)
+#ifdef CONFIG_SAMA5_FLEXCOM0_SPI
+void sam_flexcom0_spiselect(uint32_t devid, bool selected)
 {
-#ifdef CONFIG_MTD_AT25
-  /* The AT25 serial FLASH connects using NPCS0 */
-
-  if (devid == SPIDEV_FLASH(0))
-    {
-      sam_piowrite(PIO_AT25_NPCS0, !selected);
-    }
-#endif
-}
-#endif
-
-#ifdef CONFIG_SAMA5_SPI1
-void sam_spi1select(uint32_t devid, bool selected)
-{
-      sam_piowrite(PIN_CS, !selected);
 }
 #endif
 
@@ -166,18 +142,11 @@ void sam_spi1select(uint32_t devid, bool selected)
  *
  ****************************************************************************/
 
-#ifdef CONFIG_SAMA5_SPI0
-uint8_t sam_spi0status(struct spi_dev_s *dev, uint32_t devid)
+#ifdef CONFIG_SAMA5_FLEXCOM0_SPI
+uint8_t sam_flexcom0_spistatus(struct spi_dev_s *dev, uint32_t devid)
 {
   return 0;
 }
 #endif
 
-#ifdef CONFIG_SAMA5_SPI1
-uint8_t sam_spi1status(struct spi_dev_s *dev, uint32_t devid)
-{
-  return 0;
-}
-#endif
-
-#endif /* CONFIG_SAMA5_SPI0 || CONFIG_SAMA5_SPI1 */
+#endif /* CONFIG_SAMA5_FLEXCOM0 */
